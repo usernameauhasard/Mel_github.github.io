@@ -5,15 +5,17 @@
 	<meta charset="utf-8"/>
 </head>
 <body>
-
+<p style="font-weight:bold">EXO 1</p>
 <h1>Votre position (méthode getCurrentPosition)</h1>
 <p id="mesures"> </p>
 		
 <script>
                
            var appendCoord = document.getElementById("mesures");   
+		   var id = navigator.geolocation.watchPosition(success);
            navigator.geolocation.getCurrentPosition(success)
            function success(position) {
+
                var crd = position.coords;
                var dateStamp = position.timestamp;
                var date = new Date(dateStamp);
@@ -22,9 +24,52 @@
                +"</br> Précision :"+crd.accuracy.toFixed(2)
                +"</br> Vitesse :"+crd.speed
                +"</br> Date :"+date
-                  
+			   +"</br> Code de retour :" + id
+			   
+			   
+				                  
            }
+		   navigator.geolocation.clearWatch(id);
 </script>
 <h2>Méthode watchPosition</h2>
+<p> Cette methode permet de verifier le suivi de geolocalisation. 
+Une fois la destination atteinte, il faut utiliser la methode clearWatch pour arreter le suivi
+</p>
+
+<p style="font-weight:bold">EXO 2</p>
+
+
+	<div>
+	   <p>Orientation</p>
+	   <p>Alpha: <span id="alphaVal">0</span></p>
+	   <p>Beta: <span id="betaVal">0</span></p>
+	   <p>Gamma: <span id="gammaVal">0</span></p>
+	</div>
+
+	<div id="motionData">
+        <p>Mouvement</p>
+        <p>Accélération en rotation: <span id="rotationAcc">0</span></p>
+        <p>Accélération en translation: <span id="translationAcc">0</span></p>
+    </div>
+
+    <script>
+       
+        function updateOrientation(event) {
+            document.getElementById("alphaVal").textContent = event.alpha.toFixed(2);
+            document.getElementById("betaVal").textContent = event.beta.toFixed(2);
+            document.getElementById("gammaVal").textContent = event.gamma.toFixed(2);
+        }
+
+       
+        function updateMotion(event) {
+            document.getElementById("rotationAcc").textContent = event.rotationRate.toFixed(2);
+            document.getElementById("translationAcc").textContent = event.acceleration.toFixed(2);
+        }
+
+       
+        window.addEventListener("deviceorientation", updateOrientation);
+        window.addEventListener("devicemotion", updateMotion);
+    </script>
+
 </body>
 </html>
