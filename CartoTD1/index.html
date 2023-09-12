@@ -70,6 +70,47 @@ Une fois la destination atteinte, il faut utiliser la methode clearWatch pour ar
         window.addEventListener("deviceorientation", updateOrientation);
         window.addEventListener("devicemotion", updateMotion);
     </script>
+	
+	<p style='font-weight:bold'>EXO 3 </p>
+    <div id="info">
+        <p>Position du toucher : <span id="position"></span></p>
+        <p>Type d'événement : <span id="eventType"></span></p>
+    </div>
+
+    <script>
+        const info = document.getElementById('info');
+        const positionElement = document.getElementById('position');
+        const eventTypeElement = document.getElementById('eventType');
+
+        //Afficher la position du toucher
+        function showPosition(event) {
+            const touch = event.touches[0];
+            positionElement.textContent = `X: ${touch.clientX}, Y: ${touch.clientY}`;
+        }
+
+        // Afficher le type d'événement
+        function showEventType(event) {
+            eventTypeElement.textContent = event.type;
+        }
+
+        // Écouteurs d'événements tactiles
+        document.addEventListener('touchstart', (event) => {
+            showPosition(event);
+            showEventType(event);
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            showPosition(event);
+            showEventType(event);
+        });
+
+        document.addEventListener('touchend', (event) => {
+            showPosition(event);
+            showEventType(event);
+        });
+    </script>
+
+
 
 </body>
 </html>
