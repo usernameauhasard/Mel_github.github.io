@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GeoCarto</title>
+	<meta charset="utf-8"/>
+</head>
+<body>
+
+<h1>Votre position (méthode getCurrentPosition)</h1>
+<p id="mesures"> </p>
+		
+<script>
+               
+           var appendCoord = document.getElementById("mesures");   
+           navigator.geolocation.getCurrentPosition(success)
+           function success(position) {
+               var crd = position.coords;
+               var dateStamp = position.timestamp;
+               var date = new Date(dateStamp);
+               appendCoord.innerHTML="Latitude :"+crd.latitude.toFixed(2) 
+               +"</br> Longitude :"+crd.longitude.toFixed(2)
+               +"</br> Précision :"+crd.accuracy.toFixed(2)
+               +"</br> Vitesse :"+crd.speed
+               +"</br> Date :"+date
+                  
+           }
+</script>
+<h2>Méthode watchPosition</h2>
+</body>
+</html>
