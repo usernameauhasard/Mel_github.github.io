@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Leaflet</title>
+        <meta name="description" content="Couscous">
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    </head>
+    
+    <body>
+    <div id='map'>
+        
+        
+    </div>  
+    </br>
+    <div id='coordGPS'>
+        
+        
+    </div>
+        
+    <script>
+    navigator.geolocation.getCurrentPosition(success)
+    function success(position) {
+      
+        const blocGPS = document.getElementById('coordGPS')
+        var crd = position.coords;
+        var dateStamp = position.timestamp;
+        var date = new Date(dateStamp);
+        
+        var map = L.map('map').setView([crd.latitude, crd.longitude], 10);  
+        
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', 
+        {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        var circle = L.circle([crd.latitude, crd.longitude], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 500
+        }).addTo(map);    
+        circle.bindPopup("Le FBI t'a retrouvé").openPopup();   
+        
+        var markerNice = L.marker([43.6996500, 7.2651854]).addTo(map)
+        markerNice.bindPopup("J'crois que c'est Nice </br> mais j'suis pas sûr")
+        
+        var markerMarseille = L.marker([43.296121870529355, 5.370929756488528]).addTo(map)
+        var triangleBermudes = L.polygon([
+            [28.660035, -73.503149],
+            [23.550367, -71.158595],
+            [30.508693, -66.650350]
+        ]).addTo(map);
+        
+        var latlngs = [ [43.6996500, 7.2651854], [43.296121870529355, 5.370929756488528]];
+        var polyline = L.polyline(latlngs, {color: 'blue'});
+        polyline.addTo(map)
+        
+        //Trouvé ici : https://www.geodatasource.com/developers/javascript
+        function distance(lat1, lon1, lat2, lon2, unit) {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            var radlat1 = Math.PI * lat1/180;
+            var radlat2 = Math.PI * lat2/180;
+            var theta = lon1-lon2;
+            var radtheta = Math.PI * theta/180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+            dist = Math.acos(dist);
+            dist = dist * 180/Math.PI;
+            dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+	     }
+       }
+        blocGPS.innerHTML="Latitude :"+crd.latitude.toFixed(2) 
+        +"</br> Longitude :"+crd.longitude.toFixed(2)
+        +"</br> Précision :"+crd.accuracy.toFixed(2)
+        +"</br> Vitesse :"+crd.speed
+        +"</br> Date :"+date        
+        +"</br>Distance Nice-Marseille :"+distance(43.6996500, 7.2651854,43.296121870529355, 5.370929756488528,'K' ).toFixed(2) +" Km"
+    }
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </script>
+        
+        
+        
+        
+        
+        
+    <style>
+    #map { height: 500px; }    
+        
+    </style>    
+    </body>
+</html>
