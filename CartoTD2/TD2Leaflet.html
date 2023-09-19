@@ -3,9 +3,11 @@
     
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
         <title>Leaflet</title>
         <meta name="description" content="Couscous">
+        
+        <script src="jquery.js"></script>
         <link rel="stylesheet" href="main.css">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -93,25 +95,15 @@
         +"</br> Vitesse :"+crd.speed
         +"</br> Date :"+date        
         +"</br>Distance Nice-Marseille :"+distance(43.6996500, 7.2651854,43.296121870529355, 5.370929756488528,'K' ).toFixed(2) +" Km"
-    }
     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+         $.getJSON("events_public.json", function (data) {
+            var datalayer = L.geoJson(data, {
+            onEachFeature: function (feature, featureLayer) {
+                featureLayer.bindPopup("Évènement public");
+            }
+            }).addTo(map);
+          });
+        }
         
     </script>
         
