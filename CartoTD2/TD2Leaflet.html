@@ -97,11 +97,7 @@
         +"</br>Distance Nice-Marseille :"+distance(43.6996500, 7.2651854,43.296121870529355, 5.370929756488528,'K' ).toFixed(2) +" Km"
     
          $.getJSON("data.geojson", function (data) {
-            var datalayer = L.geoJson(data);
-             function (feature, featureLayer) {
-                featureLayer.bindPopup("Parc");
-             }
-            }).addTo(map);
+            var datalayer = L.geoJson(data).addTo(map);
           });
         }
         
